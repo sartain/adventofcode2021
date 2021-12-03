@@ -16,6 +16,11 @@ class Advent2(var xPos: Int, var yPos: Int) {
         }
     }
 
+    fun printHorizontalMultipliedByDepth() {
+        processCommands(readInputFromFile())
+        print(xPos * yPos)
+    }
+
     fun readInputFromFile() : List<String> = File("data/day2_1.txt").readLines()
 
 }
