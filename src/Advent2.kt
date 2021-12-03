@@ -6,12 +6,13 @@ class Advent2(var xPos: Int, var yPos: Int) {
 
     fun processCommands(commandList: List<String>) {
         for(command in commandList) {
+            val moveBy = Integer.valueOf(command.split(" ")[1])
             if(command.startsWith("forward"))
-                this.xPos += 2
+                this.xPos += moveBy
             else if(command.startsWith("up"))
-                this.yPos += 2
+                this.yPos += moveBy
             else
-                this.yPos -= 2
+                this.yPos -= moveBy
         }
     }
 
