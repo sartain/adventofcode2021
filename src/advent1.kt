@@ -1,17 +1,12 @@
 import java.io.File
+import kotlin.streams.toList
 
 class Advent1 {
 
-    fun countIncreasingDepthFromList(listToSearch: List<String>) : Int{
-        var previousDepth = Integer.valueOf(listToSearch[0])
+    fun countIncreasingDepthFromList(listToSearch: List<String>) : Int {
+        val depthAsInteger = listToSearch.stream().mapToInt { e -> Integer.valueOf(e) }.toList()
         var count = 0
-        for(value in listToSearch) {
-            val depthAsInt = Integer.valueOf(value)
-            if (depthAsInt > previousDepth) {
-                count += 1
-            }
-            previousDepth = depthAsInt
-        }
+        depthAsInteger.reduce { a, b -> if (b > a) count++; b}
         return count
     }
 
