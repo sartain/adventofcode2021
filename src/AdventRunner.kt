@@ -9,5 +9,8 @@ fun main() {
     adv1.printCountOfThreeSequenceDepthIncrease()
 
     val adv2 = Advent2(0, 0)
-    adv2.printHorizontalMultipliedByDepth()
+    adv2.runCommandsAndPrintHorizontalByDepth()
+    System.out.println("...")
+    val adv2_2 = Advent2(0, 0)
+    adv2_2.runCommandsWithAimAndPrintHorizontalByDepth()
 }
