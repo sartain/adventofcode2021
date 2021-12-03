@@ -17,4 +17,11 @@ class advent1test {
         val testSubject = adv1.countIncreasingDepthFromList(listOf("3","1","2", "1","2", "2"))
         assertEquals(2, testSubject)
     }
+
+    @Test
+    fun countsIncreaseInThreeSequence() {
+        val adv1 = Advent1()
+        val testSubject = adv1.countIncreasingSeqDepthFromList(listOf("1","2","3", "4"))
+        assertEquals(1, testSubject)
+    }
 }
