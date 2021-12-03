@@ -20,17 +20,11 @@ class Advent1 {
 
     fun countIncreasingSeqDepthFromList(listToSearch: List<String>): Int {
         val depthSequence1 = listToSearch.stream().mapToInt { e -> Integer.valueOf(e) }.toList()
-        val depthSequence2 = listToSearch.stream().skip(1).mapToInt { e -> Integer.valueOf(e) }.toList()
-        val depthSequence3 = listToSearch.stream().skip(2).mapToInt { e -> Integer.valueOf(e) }.toList()
+        //val depthSequence2 = listToSearch.stream().skip(1).mapToInt { e -> Integer.valueOf(e) }.toList()
+        //val depthSequence3 = listToSearch.stream().skip(2).mapToInt { e -> Integer.valueOf(e) }.toList()
+        //Windowed function provides this already.
         var count = 0
-        var prev = 0
-        for(i in 0..depthSequence3.lastIndex) {
-            val current =  depthSequence1[i] + depthSequence2[i] + depthSequence3[i]
-            if(current > prev && prev != 0) {
-                count += 1
-            }
-            prev = current
-        }
+        depthSequence1.windowed(3, 1).map{it.sum()}.reduce {a, b -> if (b > a) count ++; b}
         return count
     }
 

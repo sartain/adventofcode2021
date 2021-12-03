@@ -2,7 +2,7 @@ package test
 import Advent1
 import org.testng.annotations.Test
 import kotlin.test.assertEquals
-class advent1test {
+class Advent1Test {
 
     @Test
     fun countsIncreaseInList() {
