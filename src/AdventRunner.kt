@@ -16,5 +16,8 @@ fun main() {
     adv2_2.runCommandsWithAimAndPrintHorizontalByDepth()
     System.out.println("ADVENT 3:")
     val adv3_1 = Advent3()
-    print(adv3_1.multiplyGammaEpsilon())
+    adv3_1.printAndCalculateGammaEpsilon()
+    val adv3_2 = Advent3()
+    System.out.println("//")
+    adv3_2.printAndCalculateOxygenCO2()
 }
