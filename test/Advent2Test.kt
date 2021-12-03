@@ -18,4 +18,11 @@ class Advent2Test {
         assertEquals(2, advent2.yPos)
     }
 
+    @Test
+    fun moveDownDecreaseYPos() {
+        val advent2 = Advent2(0, 0)
+        advent2.processCommands(listOf("up 2", "down 2"))
+        assertEquals(0, advent2.yPos)
+    }
+
 }
