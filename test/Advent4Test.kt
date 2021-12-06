@@ -20,4 +20,13 @@ class Advent4Test {
         assertEquals(listOf(listOf(3, 3, 3), listOf(2, 2, 2), listOf(1, 1, 1)), advent4.cols)
     }
 
+    @Test
+    fun checkRowIsAcceptable() {
+        var advent4 = Advent4()
+        advent4.addBoard(listOf(listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1)))
+        advent4.addBoard(listOf(listOf(4, 2, 1, 1, 1), listOf(5, 2, 1, 1, 1), listOf(6, 2, 1, 1, 1), listOf(5, 2, 1, 1, 1), listOf(6, 2, 1, 1, 1)))
+        advent4.addInput(listOf(4, 2, 1, 1, 1))
+        assertEquals(1, advent4.winner)
+    }
+
 }
