@@ -1,8 +1,9 @@
 package src
 
+import Advent
 import java.io.File
 
-class Advent3(var gamma: String = "", var epsilon: String = "", var oxygen: String = "", var cO2: String = "") {
+class Advent3(var gamma: String = "", var epsilon: String = "", var oxygen: String = "", var cO2: String = "") : Advent {
 
     fun calculateGammaEpsilon(binaryList : List<String>) {
         val firstString = binaryList.get(0).length
@@ -72,14 +73,14 @@ class Advent3(var gamma: String = "", var epsilon: String = "", var oxygen: Stri
         return listToReduce.filter { e -> e.substring(position-1, position) == valueToFilter }
     }
 
-    fun printAndCalculateGammaEpsilon() {
+    override fun part1() {
         calculateGammaEpsilon(readInputFromFile())
-        print(multiplyGammaEpsilon())
+        println(multiplyGammaEpsilon())
     }
 
-    fun printAndCalculateOxygenCO2() {
+    override fun part2() {
         calculateOxygenAndC02(readInputFromFile())
-        print(multiplyOxygenCO2())
+        println(multiplyOxygenCO2())
     }
 
 }

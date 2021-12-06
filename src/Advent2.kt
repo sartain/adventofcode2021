@@ -1,8 +1,9 @@
 package src
 
+import Advent
 import java.io.File
 
-class Advent2(var xPos: Int, var yPos: Int, var aim: Int = 0) {
+class Advent2(var xPos: Int = 0, var yPos: Int = 0, var aim: Int = 0) : Advent{
 
     fun processCommands(commandList: List<String>) {
         for(command in commandList) {
@@ -30,17 +31,18 @@ class Advent2(var xPos: Int, var yPos: Int, var aim: Int = 0) {
         }
     }
 
-    fun runCommandsAndPrintHorizontalByDepth() {
+    override fun part1() {
         processCommands(readInputFromFile())
-        print(xPos * yPos)
+        val result = xPos.toLong() * yPos.toLong()
+        println(result)
     }
 
-    fun runCommandsWithAimAndPrintHorizontalByDepth() {
+    override fun part2() {
         processCommandsWithAim(readInputFromFile())
         val longX = xPos.toLong()
         val longY = yPos.toLong()
         val result: Long = longX * longY
-        print("r" + result)
+        println(result)
     }
 
     fun readInputFromFile() : List<String> = File("data/day2_1.txt").readLines()

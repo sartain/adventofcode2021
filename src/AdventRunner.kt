@@ -1,23 +1,19 @@
 package src
 
+import Advent
 import Advent1
 
 fun main() {
     System.out.println("ADVENT 1:")
-    val adv1 = Advent1()
-    adv1.printCountOfDepthIncrease()
-    System.out.println("...")
-    adv1.printCountOfThreeSequenceDepthIncrease()
-    System.out.println("ADVENT 2:")
-    val adv2 = Advent2(0, 0)
-    adv2.runCommandsAndPrintHorizontalByDepth()
-    System.out.println("...")
-    val adv2_2 = Advent2(0, 0)
-    adv2_2.runCommandsWithAimAndPrintHorizontalByDepth()
-    System.out.println("ADVENT 3:")
-    val adv3_1 = Advent3()
-    adv3_1.printAndCalculateGammaEpsilon()
-    val adv3_2 = Advent3()
-    System.out.println("//")
-    adv3_2.printAndCalculateOxygenCO2()
+    val adventDays : List<Advent> = listOf(Advent1(), Advent2(), Advent3())
+    var day = 0;
+    for(advent in adventDays) {
+        day += 1;
+        println("Start of day " + day)
+        println("Part1")
+        advent.part1()
+        println("Part2")
+        advent.part2()
+        println("End of day " + day)
+    }
 }

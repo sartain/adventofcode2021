@@ -1,7 +1,7 @@
 import java.io.File
 import kotlin.streams.toList
 
-class Advent1 {
+class Advent1 : Advent{
 
     fun countIncreasingDepthFromList(listToSearch: List<String>) : Int {
         val depthAsInteger = listToSearch.stream().mapToInt { e -> Integer.valueOf(e) }.toList()
@@ -10,12 +10,13 @@ class Advent1 {
         return count
     }
 
-    fun printCountOfDepthIncrease() {
-        print(countIncreasingDepthFromList(readInputFromFile()))
+    
+    override fun part1() {
+        println(countIncreasingDepthFromList(readInputFromFile()))
     }
 
-    fun printCountOfThreeSequenceDepthIncrease() {
-        print(countIncreasingSeqDepthFromList(readInputFromFile()))
+    override fun part2() {
+        println(countIncreasingSeqDepthFromList(readInputFromFile()))
     }
 
     fun countIncreasingSeqDepthFromList(listToSearch: List<String>): Int {
