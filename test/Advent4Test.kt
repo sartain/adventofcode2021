@@ -26,7 +26,16 @@ class Advent4Test {
         advent4.addBoard(listOf(listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1)))
         advent4.addBoard(listOf(listOf(4, 2, 1, 1, 1), listOf(5, 2, 1, 1, 1), listOf(6, 2, 1, 1, 1), listOf(5, 2, 1, 1, 1), listOf(6, 2, 1, 1, 1)))
         advent4.addInput(listOf(4, 2, 1, 1, 1))
-        assertEquals(1, advent4.winner)
+        assertEquals(1, advent4.winningBlock)
+    }
+
+    @Test
+    fun checkColIsAcceptable() {
+        var advent4 = Advent4()
+        advent4.addBoard(listOf(listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1), listOf(3, 2, 1, 1, 1)))
+        advent4.addBoard(listOf(listOf(4, 2, 1, 1, 1), listOf(5, 2, 1, 1, 1), listOf(6, 2, 1, 1, 1), listOf(5, 2, 1, 1, 1), listOf(6, 2, 1, 1, 1)))
+        advent4.addInput(listOf(4, 5, 6, 5, 6))
+        assertEquals(1, advent4.winningBlock)
     }
 
 }
