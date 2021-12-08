@@ -7,17 +7,22 @@ class Advent4: Advent{
     var rows: List<List<Int>> = emptyList() //Rows on every bingo card
     var cols: List<List<Int>> = emptyList() //Cols on every bingo card
     var winningBlock: Int = -1  //Block that has won
-    var minimum = 400000;   //Minimum amount of inputs to win
+    var minimumMovesToWin = 400000;   //Minimum amount of inputs to win
+    var maximumMovesToWin = 0;
     var inputList = emptyList<Int>()    //Input list / stream of values
 
     override fun part1() {
         readInputIntoBoard()
+        findMinimumWinner(inputList)
         printScore(getWinningBoard())
-        //From winner find the correct grid
     }
 
     override fun part2() {
-        TODO("Not yet implemented")
+        winningBlock = -1
+        //readInputIntoBoard()
+        //findMaximumWinner()
+        findMax(inputList)
+        printScoreMaximum(getWinningBoard())
     }
 
     fun getWinningBoard() : List<List<Int>>{
@@ -33,7 +38,7 @@ class Advent4: Advent{
 
     fun printScore(winningBoard : List<List<Int>>) {
         var score = 0
-        val filteredInputList = inputList.slice(0..minimum-1)
+        val filteredInputList = inputList.slice(0..minimumMovesToWin-1)
         for(row in winningBoard) {
             for (value in row) {
                 if(!filteredInputList.contains(value)) {
@@ -42,7 +47,23 @@ class Advent4: Advent{
             }
         }
         val finalResult = score * filteredInputList[filteredInputList.lastIndex]
-        System.out.println(finalResult)
+        println(finalResult)
+    }
+
+    fun printScoreMaximum(winningBoard : List<List<Int>>) {
+        println(winningBoard)
+        var score = 0
+        val filteredInputList = inputList.slice(0..maximumMovesToWin-1)
+        println(filteredInputList)
+        for(row in winningBoard) {
+            for (value in row) {
+                if(!filteredInputList.contains(value)) {
+                    score += value
+                }
+            }
+        }
+        val finalResult = score * filteredInputList[filteredInputList.lastIndex]
+        println(finalResult)
     }
 
     fun addBoard(board: List<List<Int>>) {
@@ -75,17 +96,34 @@ class Advent4: Advent{
 
     fun addInput(inputList: List<Int>) {
         this.inputList = inputList
-        checkRowsAndCols(inputList)
     }
 
-    fun checkRowsAndCols(inputList : List<Int>) {
+    fun findMinimumWinner(inputList : List<Int>) {
         for(i in 0..rows.lastIndex) {
-            checkWinner(rows[i], inputList, i / 5)
-            checkWinner(cols[i], inputList, i / 5)
+            checkFastestWinner(rows[i], inputList, i / 5)
+            checkFastestWinner(cols[i], inputList, i / 5)
         }
     }
 
-    fun checkWinner(listToCheck: List<Int>, inputList: List<Int>, grid: Int) {
+    fun findMax(inputList : List<Int>) {
+        var maximum = 0
+        var blockWinner = 0
+        for(i in 0..rows.lastIndex) {
+            checkFastestWinner(rows[i], inputList, i / 5)
+            checkFastestWinner(cols[i], inputList, i / 5)
+            if((i+1) % 5 == 0) {
+                if(maximum < this.minimumMovesToWin) {
+                    blockWinner = i / 5
+                    maximum = this.minimumMovesToWin
+                }
+                this.minimumMovesToWin = 40000
+            }
+        }
+        winningBlock = blockWinner
+        maximumMovesToWin = maximum
+    }
+
+    fun checkFastestWinner(listToCheck: List<Int>, inputList: List<Int>, grid: Int) {
         var matches = 0;
         var timeTaken = 0;
         for(i in inputList) {
@@ -94,9 +132,10 @@ class Advent4: Advent{
                 matches += 1
             }
             if(matches == listToCheck.size) {
-                if(timeTaken < this.minimum) {
+                if(timeTaken < this.minimumMovesToWin) {
                     winningBlock = grid
-                    this.minimum = timeTaken
+                    this.minimumMovesToWin = timeTaken
+                    return
                 }
             }
         }
