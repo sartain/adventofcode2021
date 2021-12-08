@@ -4,14 +4,23 @@ import Advent
 import java.io.File
 
 class Advent4: Advent{
-    var rows: List<List<Int>> = emptyList()
-    var cols: List<List<Int>> = emptyList()
-    var winningBlock: Int = -1
-    var minimum = 400000;
-    var inputList = emptyList<Int>()
+    var rows: List<List<Int>> = emptyList() //Rows on every bingo card
+    var cols: List<List<Int>> = emptyList() //Cols on every bingo card
+    var winningBlock: Int = -1  //Block that has won
+    var minimum = 400000;   //Minimum amount of inputs to win
+    var inputList = emptyList<Int>()    //Input list / stream of values
 
     override fun part1() {
         readInputIntoBoard()
+        printScore(getWinningBoard())
+        //From winner find the correct grid
+    }
+
+    override fun part2() {
+        TODO("Not yet implemented")
+    }
+
+    fun getWinningBoard() : List<List<Int>>{
         val winningIndex = winningBlock * 5
         var winningBoard : List<List<Int>> = emptyList()
         val mutableWinningBoard = winningBoard.toMutableList()
@@ -19,11 +28,7 @@ class Advent4: Advent{
             mutableWinningBoard.add(rows[i])
         }
         winningBoard = mutableWinningBoard
-        printScore(winningBoard)
-        //From winner find the correct grid
-    }
-    override fun part2() {
-        TODO("Not yet implemented")
+        return winningBoard
     }
 
     fun printScore(winningBoard : List<List<Int>>) {
@@ -36,18 +41,9 @@ class Advent4: Advent{
                 }
             }
         }
-        System.out.println(score)
-        System.out.println(filteredInputList[filteredInputList.lastIndex])
-        var finalResult = score * filteredInputList[filteredInputList.lastIndex]
+        val finalResult = score * filteredInputList[filteredInputList.lastIndex]
         System.out.println(finalResult)
     }
-
-    //We have a list of 5 rows
-    //We have a list of 5 cols
-    //iterate each row to see if it wins (record count)
-    //iterate each col to see if it wins (record count)
-    //Get minimum winner based on row and col
-    //From there iterate list and get the none-used values
 
     fun addBoard(board: List<List<Int>>) {
         addRows(board)
@@ -61,6 +57,8 @@ class Advent4: Advent{
         }
         rows = mutableListOfRows
     }
+
+    //Assumes bingo card is yxy where y = number of values
 
     fun addCols(board : List<List<Int>>) {
         val mutableListOfCols = cols.toMutableList()
@@ -82,39 +80,20 @@ class Advent4: Advent{
 
     fun checkRowsAndCols(inputList : List<Int>) {
         for(i in 0..rows.lastIndex) {
-            checkRow(rows[i], inputList, i / 5)
-        }
-        for(i in 0..cols.lastIndex) {
-            checkCol(cols[i], inputList, i / 5)
+            checkWinner(rows[i], inputList, i / 5)
+            checkWinner(cols[i], inputList, i / 5)
         }
     }
 
-    fun checkRow(row : List<Int>, inputList: List<Int>, grid : Int) {
+    fun checkWinner(listToCheck: List<Int>, inputList: List<Int>, grid: Int) {
         var matches = 0;
         var timeTaken = 0;
         for(i in inputList) {
             timeTaken += 1
-            if (i in row) {
+            if (i in listToCheck) {
                 matches += 1
             }
-            if(matches == row.size) {
-                if(timeTaken < this.minimum) {
-                    winningBlock = grid
-                    this.minimum = timeTaken
-                }
-            }
-        }
-    }
-
-    fun checkCol(col : List<Int>, inputList: List<Int>, grid : Int) {
-        var matches = 0;
-        var timeTaken = 0;
-        for(i in inputList) {
-            timeTaken += 1
-            if (i in col) {
-                matches += 1
-            }
-            if(matches == col.size) {
+            if(matches == listToCheck.size) {
                 if(timeTaken < this.minimum) {
                     winningBlock = grid
                     this.minimum = timeTaken
@@ -146,7 +125,6 @@ class Advent4: Advent{
         if(count == 5) {
             boardToAdd = mutableBoardToAdd
             addBoard(boardToAdd)
-            boardToAdd = emptyList()
         }
         addInput(bingoSequence)
     }
