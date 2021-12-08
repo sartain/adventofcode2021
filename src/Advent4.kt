@@ -111,6 +111,8 @@ class Advent4: Advent{
         for(i in 0..rows.lastIndex) {
             checkFastestWinner(rows[i], inputList, i / 5)
             checkFastestWinner(cols[i], inputList, i / 5)
+            //At each block reset the minimum moves to win
+            //Check if there is a new maximum
             if((i+1) % 5 == 0) {
                 if(maximum < this.minimumMovesToWin) {
                     blockWinner = i / 5
