@@ -51,10 +51,8 @@ class Advent4: Advent{
     }
 
     fun printScoreMaximum(winningBoard : List<List<Int>>) {
-        println(winningBoard)
         var score = 0
         val filteredInputList = inputList.slice(0..maximumMovesToWin-1)
-        println(filteredInputList)
         for(row in winningBoard) {
             for (value in row) {
                 if(!filteredInputList.contains(value)) {
