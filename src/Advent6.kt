@@ -41,6 +41,8 @@ class Advent6 : Advent {
     }
 
     fun simulateDaysUsingMap(days : Int, mutableFishMap : MutableMap<Int, Long>) : Long{
+        //Solution taken from online
+        //Learning points -> Consider arrays related to a value index when values are going to be a set
         var total : Long = 0
         for (i in 1..days) {
             val placeholder = mutableFishMap.getOrDefault(0, 0)
