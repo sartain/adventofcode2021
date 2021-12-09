@@ -2,11 +2,12 @@ package src
 
 import Advent
 import java.io.File
+import kotlin.math.abs
 
 class Advent5 : Advent{
     var grid: MutableMap<String,Int> = mutableMapOf()
 
-    fun markSquaresGivenInput(input: String) {
+    fun markSquaresGivenInput(input: String, part2: Boolean) {
         val slicedInput = input.split(" -> ")
         val coordinatesBefore = slicedInput[0]
         val coordinatesAfter = slicedInput[1]
@@ -24,7 +25,7 @@ class Advent5 : Advent{
                 updateGridWhenXValueMatches(yAfterInt, yBeforeInt, xBefore)
             }
             else {
-                grid[xBefore+":"+yBefore] = grid.getOrDefault(xBefore+":"+yBefore, 0) + 1
+                grid["$xBefore:$yBefore"] = grid.getOrDefault("$xBefore:$yBefore", 0) + 1
             }
         }
         else if(yBefore == yAfter) {
@@ -37,19 +38,59 @@ class Advent5 : Advent{
                 updateGridWhenYValueMatches(xAfterInt, xBeforeInt, yBefore)
             }
         }
+        if(part2) {
+            var xBeforeInt = Integer.valueOf(xBefore)
+            var xAfterInt = Integer.valueOf(xAfter)
+            var yBeforeInt = Integer.valueOf(yBefore)
+            var yAfterInt = Integer.valueOf(yAfter)
+            if(abs(xBeforeInt - xAfterInt) == abs(yBeforeInt - yAfterInt)) {
+                //Diagonal
+                if (xBeforeInt < xAfterInt && yBeforeInt > yAfterInt) {
+                    val xBeforeGoal = xAfterInt
+                    while (xBeforeInt <= xBeforeGoal) {
+                        grid["$xBeforeInt:$yBeforeInt"] = grid.getOrDefault("$xBeforeInt:$yBeforeInt", 0) + 1
+                        xBeforeInt += 1
+                        yBeforeInt -= 1
+                    }
+                } else if (xBeforeInt > xAfterInt && yBeforeInt < yAfterInt) {
+                    val xBeforeGoal = xAfterInt
+                    while (xBeforeInt >= xBeforeGoal) {
+                        grid["$xBeforeInt:$yBeforeInt"] = grid.getOrDefault("$xBeforeInt:$yBeforeInt", 0) + 1
+                        xBeforeInt -= 1
+                        yBeforeInt += 1
+                    }
+                }
+                else if(xBeforeInt < xAfterInt && yBeforeInt < yAfterInt) {
+                    val xBeforeGoal = xAfterInt
+                    while (xBeforeInt <= xBeforeGoal) {
+                        grid["$xBeforeInt:$yBeforeInt"] = grid.getOrDefault("$xBeforeInt:$yBeforeInt", 0) + 1
+                        xBeforeInt += 1
+                        yBeforeInt += 1
+                    }
+                }
+                else if (xBeforeInt > xAfterInt && yBeforeInt > yAfterInt) {
+                    val xBeforeGoal = xAfterInt
+                    while (xBeforeInt >= xBeforeGoal) {
+                        grid["$xBeforeInt:$yBeforeInt"] = grid.getOrDefault("$xBeforeInt:$yBeforeInt", 0) + 1
+                        xBeforeInt -= 1
+                        yBeforeInt -= 1
+                    }
+                }
+            }
+        }
     }
 
     fun updateGridWhenXValueMatches(lowerValue : Int, upperValue: Int, xValue: String) {
         for(i in lowerValue..upperValue) {
             val y = i.toString()
-            grid[xValue+":"+y] = grid.getOrDefault(xValue+":"+y, 0) + 1
+            grid["$xValue:$y"] = grid.getOrDefault("$xValue:$y", 0) + 1
         }
     }
 
     fun updateGridWhenYValueMatches(lowerValue : Int, upperValue: Int, yValue: String) {
         for(i in lowerValue..upperValue) {
             val x = i.toString()
-            grid[x+":"+yValue] = grid.getOrDefault(x+":"+yValue, 0) + 1
+            grid["$x:$yValue"] = grid.getOrDefault("$x:$yValue", 0) + 1
         }
     }
 
@@ -58,11 +99,16 @@ class Advent5 : Advent{
     override fun part1() {
         val inputList = readInputFromFile()
         for(line in inputList) {
-            markSquaresGivenInput(line)
+            markSquaresGivenInput(line, false)
         }
         println(grid.filter { (key, value) -> value >= 2 }.count())
     }
     override fun part2() {
-        TODO("Not yet implemented")
+        grid = mutableMapOf()
+        val inputList = readInputFromFile()
+        for(line in inputList) {
+            markSquaresGivenInput(line, true)
+        }
+        println(grid.filter { (key, value) -> value >= 2 }.count())
     }
 }
