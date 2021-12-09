@@ -15,7 +15,6 @@ class Advent8 : Advent {
         loadInput(readInputFromFile())
         println(detectDigitsPartTwo())
     }
-
     fun loadInput(inputString: List<String>) {
         inputLines = inputString
     }
@@ -81,6 +80,7 @@ class Advent8 : Advent {
         )
         var mappingString = line.split(" | ")[0]
         var mappingDigits = mappingString.split(" ")
+        //First loop to get what we need to deduce other values
         for (digit in mappingDigits) {
             if (digit.length == 2) {
                 digitMappingList[1] = getListOfDigitConnectionsFromString(digit)
@@ -92,6 +92,7 @@ class Advent8 : Advent {
                 digitMappingList[8] = getListOfDigitConnectionsFromString(digit)
             }
         }
+        //Second loop to use our values to fill the board
         for (digit in mappingDigits) {
             val mappingList = getListOfDigitConnectionsFromString(digit)
             if (digit.length == 6) {
@@ -106,7 +107,7 @@ class Advent8 : Advent {
                 if (mappingList.containsAll(digitMappingList[1]) && digitMappingList[1].isNotEmpty()) {
                     digitMappingList[3] = mappingList
                 }
-                //Check overlap between 4 and 2/5
+                //Check overlap between 4 and 2 / 5 values to decide which one to choose
                 else {
                     var fourCount = 0
                     for (fourDigit in digitMappingList[4]) {
