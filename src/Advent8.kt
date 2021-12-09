@@ -25,8 +25,8 @@ class Advent8 : Advent {
     fun detectDigits(): Int {
         var partOneCount = 0
         for (line in inputLines) {
-            var fourDigitString = line.split(" | ")[1]
-            var individualDigits = fourDigitString.split(" ")
+            val fourDigitString = line.split(" | ")[1]
+            val individualDigits = fourDigitString.split(" ")
             for (digit in individualDigits) {
                 if (digit.length == 2 || digit.length == 4 || digit.length == 3 || digit.length == 7) {
                     partOneCount += 1
@@ -41,12 +41,12 @@ class Advent8 : Advent {
         var partTwoCount = 0
         for (line in inputLines) {
             val inputList = mapConnections(line)
-            var fourDigitString = line.split(" | ")[1]
-            var individualDigits = fourDigitString.split(" ")
+            val fourDigitString = line.split(" | ")[1]
+            val individualDigits = fourDigitString.split(" ")
             var stringValue = ""
             for (digit in individualDigits) {
-                var correspondingConnection = getListOfDigitConnectionsFromString(digit)
-                var digitAsValue = detectDigitFromStringList(inputList, correspondingConnection)
+                val correspondingConnection = getListOfDigitConnectionsFromString(digit)
+                val digitAsValue = detectDigitFromStringList(inputList, correspondingConnection)
                 stringValue += digitAsValue.toString()
             }
             partTwoCount += Integer.valueOf(stringValue)
@@ -66,7 +66,7 @@ class Advent8 : Advent {
     //Logic to find the map connections
 
     fun mapConnections(line: String): List<List<String>> {
-        var digitMappingList: MutableList<MutableList<String>> = mutableListOf(
+        val digitMappingList: MutableList<MutableList<String>> = mutableListOf(
             mutableListOf(),
             mutableListOf(),
             mutableListOf(),
@@ -78,8 +78,8 @@ class Advent8 : Advent {
             mutableListOf(),
             mutableListOf()
         )
-        var mappingString = line.split(" | ")[0]
-        var mappingDigits = mappingString.split(" ")
+        val mappingString = line.split(" | ")[0]
+        val mappingDigits = mappingString.split(" ")
         //First loop to get what we need to deduce other values
         for (digit in mappingDigits) {
             when(digit.length) {
@@ -127,6 +127,5 @@ class Advent8 : Advent {
     fun getListOfDigitConnectionsFromString(digit: String) : MutableList<String> {
         return digit.split("").filter{e -> e.isNotEmpty()}.sorted().toMutableList()
     }
-
 
 }
