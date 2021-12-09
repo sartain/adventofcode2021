@@ -47,4 +47,21 @@ class Advent8Test {
         advent8.loadInput(listOf("dbcfg fgd bdegcaf fgec aegbdf ecdfab fbedc dacgb gdcebf gf | cd cde cdec cdecdec"))
         assertEquals(4, advent8.detectDigits())
     }
+
+    @Test
+    fun determineNumberPattern() {
+        val advent8 = Advent8()
+        advent8.loadInput(listOf("acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"))
+        val mapping : List<List<String>> = advent8.mapConnections("acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf")
+        assertEquals(listOf("a","b","c","d","e","g"), mapping[0])
+        assertEquals(listOf("a","b"), mapping[1])
+        assertEquals(listOf("a","c","d","f","g"), mapping[2])
+        assertEquals(listOf("a","b","c","d","f"), mapping[3])
+        assertEquals(listOf("a","b","e","f"), mapping[4])
+        assertEquals(listOf("b","c","d","e","f"), mapping[5])
+        assertEquals(listOf("b","c","d","e","f","g"), mapping[6])
+        assertEquals(listOf("a","b","d"), mapping[7])
+        assertEquals(listOf("a","b","c","d","e","f","g"), mapping[8])
+        assertEquals(listOf("a","b","c","d","e","f"), mapping[9])
+    }
 }
