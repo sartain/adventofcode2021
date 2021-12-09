@@ -20,6 +20,7 @@ class Advent6Test {
         advent6.addFishGivenString("1")
         advent6.simulateDays(1)
         assertEquals(8, advent6.fish[1])
+        assertEquals(8, advent6.fish[0])
     }
 
 }

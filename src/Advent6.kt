@@ -1,13 +1,17 @@
 package src
 
 import Advent
+import java.io.File
 
 class Advent6 : Advent {
 
     var fish : MutableList<Int> = mutableListOf()
 
     override fun part1() {
-        TODO("Not yet implemented")
+        var fishInput : String = readInputFromFile()[0]
+        addFishGivenString(fishInput)
+        simulateDays(80)
+        println(fish.size)
     }
 
     override fun part2() {
@@ -29,10 +33,13 @@ class Advent6 : Advent {
         val newFishList = fish
         for(i in 0..fish.lastIndex) {
             fish[i] -= 1
-            if(fish[i] == 0) {
+            if(fish[i] < 0) {
                 newFishList.add(newFishList.lastIndex+1, 8)
+                fish[i] = 6
             }
         }
         fish = newFishList
     }
+
+    fun readInputFromFile() : List<String> = File("data/day6_1.txt").readLines()
 }
