@@ -3,8 +3,6 @@ package src
 import Advent
 import java.io.File
 import kotlin.math.abs
-import java.util.Collections.max
-import java.util.Collections.min
 
 class Advent7 : Advent{
 
