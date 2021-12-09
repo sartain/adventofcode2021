@@ -11,45 +11,37 @@ class Advent5 : Advent{
         val slicedInput = input.split(" -> ")
         val coordinatesBefore = slicedInput[0]
         val coordinatesAfter = slicedInput[1]
-        val xBefore = coordinatesBefore.split(",")[0]
-        val yBefore = coordinatesBefore.split(",")[1]
-        val xAfter = coordinatesAfter.split(",")[0]
-        val yAfter = coordinatesAfter.split(",")[1]
+        val xBefore = Integer.valueOf(coordinatesBefore.split(",")[0])
+        val yBefore = Integer.valueOf(coordinatesBefore.split(",")[1])
+        val xAfter = Integer.valueOf(coordinatesAfter.split(",")[0])
+        val yAfter = Integer.valueOf(coordinatesAfter.split(",")[1])
         if(xBefore == xAfter) {
-            val yBeforeInt = Integer.valueOf(yBefore)
-            val yAfterInt = Integer.valueOf(yAfter)
-            if(yBeforeInt < yAfterInt) {
-                updateGridWhenXValueMatches(yBeforeInt, yAfterInt, xBefore)
+            if(yBefore < yAfter) {
+                updateGridWhenXValueMatches(yBefore, yAfter, xBefore)
             }
-            else if(yBeforeInt > yAfterInt){
-                updateGridWhenXValueMatches(yAfterInt, yBeforeInt, xBefore)
+            else if(yBefore > yAfter){
+                updateGridWhenXValueMatches(yAfter, yBefore, xBefore)
             }
             else {
                 grid["$xBefore:$yBefore"] = grid.getOrDefault("$xBefore:$yBefore", 0) + 1
             }
         }
         else if(yBefore == yAfter) {
-            val xBeforeInt = Integer.valueOf(xBefore)
-            val xAfterInt = Integer.valueOf(xAfter)
-            if(xBeforeInt < xAfterInt) {
-                updateGridWhenYValueMatches(xBeforeInt, xAfterInt, yBefore)
+            if(xBefore < xAfter) {
+                updateGridWhenYValueMatches(xBefore, xAfter, yBefore)
             }
-            else if(xBeforeInt > xAfterInt){
-                updateGridWhenYValueMatches(xAfterInt, xBeforeInt, yBefore)
+            else if(xBefore > xAfter){
+                updateGridWhenYValueMatches(xAfter, xBefore, yBefore)
             }
         }
         if(part2) {
-            var xBeforeInt = Integer.valueOf(xBefore)
-            var xAfterInt = Integer.valueOf(xAfter)
-            var yBeforeInt = Integer.valueOf(yBefore)
-            var yAfterInt = Integer.valueOf(yAfter)
-            if(abs(xBeforeInt - xAfterInt) == abs(yBeforeInt - yAfterInt)) {
+            if(abs(xBefore - xAfter) == abs(yBefore - yAfter)) {
                 //Diagonal
-                if(xBeforeInt < xAfterInt) {
-                    updateGridBasedOnYDifference(1, yBeforeInt, yAfterInt, xBeforeInt, xAfterInt)
+                if(xBefore < xAfter) {
+                    updateGridBasedOnYDifference(1, yBefore, yAfter, xBefore, xAfter)
                 }
-                else if(xBeforeInt > xAfterInt) {
-                    updateGridBasedOnYDifference(-1, yBeforeInt, yAfterInt, xBeforeInt, xAfterInt)
+                else if(xBefore > xAfter) {
+                    updateGridBasedOnYDifference(-1, yBefore, yAfter, xBefore, xAfter)
                 }
             }
         }
@@ -75,17 +67,15 @@ class Advent5 : Advent{
         }
     }
 
-    fun updateGridWhenXValueMatches(lowerValue : Int, upperValue: Int, xValue: String) {
+    fun updateGridWhenXValueMatches(lowerValue : Int, upperValue: Int, xValue: Int) {
         for(i in lowerValue..upperValue) {
-            val y = i.toString()
-            grid["$xValue:$y"] = grid.getOrDefault("$xValue:$y", 0) + 1
+            grid["$xValue:$i"] = grid.getOrDefault("$xValue:$i", 0) + 1
         }
     }
 
-    fun updateGridWhenYValueMatches(lowerValue : Int, upperValue: Int, yValue: String) {
+    fun updateGridWhenYValueMatches(lowerValue : Int, upperValue: Int, yValue: Int) {
         for(i in lowerValue..upperValue) {
-            val x = i.toString()
-            grid["$x:$yValue"] = grid.getOrDefault("$x:$yValue", 0) + 1
+            grid["$i:$yValue"] = grid.getOrDefault("$i:$yValue", 0) + 1
         }
     }
 
