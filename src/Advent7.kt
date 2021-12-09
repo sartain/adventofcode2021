@@ -13,14 +13,14 @@ class Advent7 : Advent{
     override fun part1() {
         var fileInput = readInputFromFile()[0]
         convertInputToCrabList(fileInput)
-        println(realignCrabs())
+        println(realignCrabs(true))
     }
 
     override fun part2() {
         crabs = mutableListOf()
         var fileInput = readInputFromFile()[0]
         convertInputToCrabList(fileInput)
-        println(realignCrabsPartTwo())
+        println(realignCrabs(false))
     }
 
     fun convertInputToCrabList(input: String) {
@@ -29,56 +29,34 @@ class Advent7 : Advent{
 
     fun readInputFromFile() : List<String> = File("data/day7_1.txt").readLines()
 
-    fun realignCrabs() : Int{
+    fun realignCrabs(partOne: Boolean) : Int{
         var valueToCheck = 0
         var currentFuelCost = 0
         var previousFuelCost = 1
         while(currentFuelCost <= previousFuelCost) {
             if(currentFuelCost == 0) {
-                previousFuelCost = calculateFuelCost(valueToCheck) + 1
-                currentFuelCost = calculateFuelCost(valueToCheck)
+                previousFuelCost = calculateFuelCost(valueToCheck, partOne) + 1
+                currentFuelCost = calculateFuelCost(valueToCheck, partOne)
             }
             else {
                 previousFuelCost = currentFuelCost
-                currentFuelCost = calculateFuelCost(valueToCheck)
+                currentFuelCost = calculateFuelCost(valueToCheck, partOne)
             }
             valueToCheck += 1
         }
         return previousFuelCost
     }
 
-    fun realignCrabsPartTwo() : Int{
-        var valueToCheck = 0
-        var currentFuelCost = 0
-        var previousFuelCost = 1
-        while(currentFuelCost <= previousFuelCost) {
-            if(currentFuelCost == 0) {
-                previousFuelCost = calculateFuelCostWithLongExpense(valueToCheck) + 1
-                currentFuelCost = calculateFuelCostWithLongExpense(valueToCheck)
-            }
+    fun calculateFuelCost(valueToCheck: Int, partOne: Boolean) : Int {
+        var fuelCost = 0
+        for(crab in crabs) {
+            if(partOne)
+                fuelCost += abs(crab - valueToCheck)
             else {
-                previousFuelCost = currentFuelCost
-                currentFuelCost = calculateFuelCostWithLongExpense(valueToCheck)
-            }
-            valueToCheck += 1
-        }
-        return previousFuelCost
-    }
-
-    fun calculateFuelCost(valueToCheck: Int) : Int{
-        var fuelCost = 0
-        for(crab in crabs) {
-            fuelCost += abs(crab - valueToCheck)
-        }
-        return fuelCost
-    }
-
-    fun calculateFuelCostWithLongExpense(valueToCheck: Int) : Int{
-        var fuelCost = 0
-        for(crab in crabs) {
-            val distance = abs(crab - valueToCheck)
-            for(i in 0..distance) {
-                fuelCost += i
+                val distance = abs(crab - valueToCheck)
+                for(i in 0..distance) {
+                    fuelCost += i
+                }
             }
         }
         return fuelCost

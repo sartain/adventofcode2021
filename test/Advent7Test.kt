@@ -9,7 +9,7 @@ class Advent7Test {
     fun minimumFuelCostValueTwoValues() {
         val advent7 = Advent7()
         advent7.convertInputToCrabList("2,1")
-        var minimumFuelCostValue = advent7.realignCrabs()
+        var minimumFuelCostValue = advent7.realignCrabs(true)
         assertEquals(1, minimumFuelCostValue)
     }
 
@@ -17,7 +17,7 @@ class Advent7Test {
     fun minimumFuelCost() {
         val advent7 = Advent7()
         advent7.convertInputToCrabList("16,1,2,0,4,2,7,1,2,14")
-        var minimumFuelCostValue = advent7.realignCrabs()
+        var minimumFuelCostValue = advent7.realignCrabs(true)
         assertEquals(37, minimumFuelCostValue)
     }
 }
