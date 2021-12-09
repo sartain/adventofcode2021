@@ -27,22 +27,28 @@ class Advent7 : Advent{
     fun readInputFromFile() : List<String> = File("data/day7_1.txt").readLines()
 
     fun realignCrabs() : Int{
-        val maximum = max(crabs)
-        val minimum = min(crabs)
-        var fuelCost = 0
-        var minimumFuelCost = 0
-        var valueForMinimumCost = 0
-        for(i in minimum..maximum) {
-            for(crab in crabs) {
-                fuelCost += abs(crab - i)
+        var valueToCheck = 0
+        var currentFuelCost = 0
+        var previousFuelCost = 1
+        while(currentFuelCost <= previousFuelCost) {
+            if(currentFuelCost == 0) {
+                previousFuelCost = calculateFuelCost(valueToCheck) + 1
+                currentFuelCost = calculateFuelCost(valueToCheck)
             }
-            println(fuelCost)
-            if(fuelCost < minimumFuelCost || minimumFuelCost == 0) {
-                valueForMinimumCost = i
-                minimumFuelCost = fuelCost
+            else {
+                previousFuelCost = currentFuelCost
+                currentFuelCost = calculateFuelCost(valueToCheck)
             }
-            fuelCost = 0
+            valueToCheck += 1
         }
-        return minimumFuelCost
+        return previousFuelCost
+    }
+
+    fun calculateFuelCost(valueToCheck: Int) : Int{
+        var fuelCost = 0
+        for(crab in crabs) {
+            fuelCost += abs(crab - valueToCheck)
+        }
+        return fuelCost
     }
 }
