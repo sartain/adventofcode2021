@@ -82,14 +82,12 @@ class Advent8 : Advent {
         var mappingDigits = mappingString.split(" ")
         //First loop to get what we need to deduce other values
         for (digit in mappingDigits) {
-            if (digit.length == 2) {
-                digitMappingList[1] = getListOfDigitConnectionsFromString(digit)
-            } else if (digit.length == 4) {
-                digitMappingList[4] = getListOfDigitConnectionsFromString(digit)
-            } else if (digit.length == 3) {
-                digitMappingList[7] = getListOfDigitConnectionsFromString(digit)
-            } else if (digit.length == 7) {
-                digitMappingList[8] = getListOfDigitConnectionsFromString(digit)
+            when(digit.length) {
+                2 -> digitMappingList[1] = getListOfDigitConnectionsFromString(digit)
+                4 -> digitMappingList[4] = getListOfDigitConnectionsFromString(digit)
+                3 -> digitMappingList[7] = getListOfDigitConnectionsFromString(digit)
+                7 -> digitMappingList[8] = getListOfDigitConnectionsFromString(digit)
+                else -> {}
             }
         }
         //Second loop to use our values to fill the board
