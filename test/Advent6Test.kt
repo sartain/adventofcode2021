@@ -18,9 +18,9 @@ class Advent6Test {
     fun addFishGivenCounterDropsToZero() {
         val advent6 = Advent6()
         advent6.addFishGivenString("1")
-        advent6.simulateDays(1)
+        advent6.simulateDays(2)
         assertEquals(8, advent6.fish[1])
-        assertEquals(8, advent6.fish[0])
+        assertEquals(6, advent6.fish[0])
     }
 
 }
