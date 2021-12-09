@@ -17,7 +17,10 @@ class Advent7 : Advent{
     }
 
     override fun part2() {
-        TODO("Not yet implemented")
+        crabs = mutableListOf()
+        var fileInput = readInputFromFile()[0]
+        convertInputToCrabList(fileInput)
+        println(realignCrabsPartTwo())
     }
 
     fun convertInputToCrabList(input: String) {
@@ -44,10 +47,39 @@ class Advent7 : Advent{
         return previousFuelCost
     }
 
+    fun realignCrabsPartTwo() : Int{
+        var valueToCheck = 0
+        var currentFuelCost = 0
+        var previousFuelCost = 1
+        while(currentFuelCost <= previousFuelCost) {
+            if(currentFuelCost == 0) {
+                previousFuelCost = calculateFuelCostWithLongExpense(valueToCheck) + 1
+                currentFuelCost = calculateFuelCostWithLongExpense(valueToCheck)
+            }
+            else {
+                previousFuelCost = currentFuelCost
+                currentFuelCost = calculateFuelCostWithLongExpense(valueToCheck)
+            }
+            valueToCheck += 1
+        }
+        return previousFuelCost
+    }
+
     fun calculateFuelCost(valueToCheck: Int) : Int{
         var fuelCost = 0
         for(crab in crabs) {
             fuelCost += abs(crab - valueToCheck)
+        }
+        return fuelCost
+    }
+
+    fun calculateFuelCostWithLongExpense(valueToCheck: Int) : Int{
+        var fuelCost = 0
+        for(crab in crabs) {
+            val distance = abs(crab - valueToCheck)
+            for(i in 0..distance) {
+                fuelCost += i
+            }
         }
         return fuelCost
     }
