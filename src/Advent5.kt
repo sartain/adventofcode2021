@@ -45,37 +45,32 @@ class Advent5 : Advent{
             var yAfterInt = Integer.valueOf(yAfter)
             if(abs(xBeforeInt - xAfterInt) == abs(yBeforeInt - yAfterInt)) {
                 //Diagonal
-                if (xBeforeInt < xAfterInt && yBeforeInt > yAfterInt) {
-                    val xBeforeGoal = xAfterInt
-                    while (xBeforeInt <= xBeforeGoal) {
-                        grid["$xBeforeInt:$yBeforeInt"] = grid.getOrDefault("$xBeforeInt:$yBeforeInt", 0) + 1
-                        xBeforeInt += 1
-                        yBeforeInt -= 1
-                    }
-                } else if (xBeforeInt > xAfterInt && yBeforeInt < yAfterInt) {
-                    val xBeforeGoal = xAfterInt
-                    while (xBeforeInt >= xBeforeGoal) {
-                        grid["$xBeforeInt:$yBeforeInt"] = grid.getOrDefault("$xBeforeInt:$yBeforeInt", 0) + 1
-                        xBeforeInt -= 1
-                        yBeforeInt += 1
-                    }
+                if(xBeforeInt < xAfterInt) {
+                    updateGridBasedOnYDifference(1, yBeforeInt, yAfterInt, xBeforeInt, xAfterInt)
                 }
-                else if(xBeforeInt < xAfterInt && yBeforeInt < yAfterInt) {
-                    val xBeforeGoal = xAfterInt
-                    while (xBeforeInt <= xBeforeGoal) {
-                        grid["$xBeforeInt:$yBeforeInt"] = grid.getOrDefault("$xBeforeInt:$yBeforeInt", 0) + 1
-                        xBeforeInt += 1
-                        yBeforeInt += 1
-                    }
+                else if(xBeforeInt > xAfterInt) {
+                    updateGridBasedOnYDifference(-1, yBeforeInt, yAfterInt, xBeforeInt, xAfterInt)
                 }
-                else if (xBeforeInt > xAfterInt && yBeforeInt > yAfterInt) {
-                    val xBeforeGoal = xAfterInt
-                    while (xBeforeInt >= xBeforeGoal) {
-                        grid["$xBeforeInt:$yBeforeInt"] = grid.getOrDefault("$xBeforeInt:$yBeforeInt", 0) + 1
-                        xBeforeInt -= 1
-                        yBeforeInt -= 1
-                    }
-                }
+            }
+        }
+    }
+
+    fun updateGridBasedOnYDifference(addToX : Int, yBeforeInt: Int, yAfterInt: Int, xBeforeInt: Int, xAfterInt: Int) {
+        val yGoal = yAfterInt
+        var xToUpdate = xBeforeInt
+        var yToUpdate = yBeforeInt
+        if(yBeforeInt > yAfterInt) {
+            while (yToUpdate >= yGoal) {
+                grid["$xToUpdate:$yToUpdate"] = grid.getOrDefault("$xToUpdate:$yToUpdate", 0) + 1
+                xToUpdate += addToX
+                yToUpdate -= 1
+            }
+        }
+        else if(yBeforeInt < yAfterInt) {
+            while (yToUpdate <= yGoal) {
+                grid["$xToUpdate:$yToUpdate"] = grid.getOrDefault("$xToUpdate:$yToUpdate", 0) + 1
+                xToUpdate += addToX
+                yToUpdate += 1
             }
         }
     }
