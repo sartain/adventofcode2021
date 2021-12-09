@@ -5,7 +5,7 @@ import Advent1
 
 fun main() {
     System.out.println("ADVENT 1:")
-    val adventDays : List<Advent> = listOf(Advent1(), Advent2(), Advent3(), Advent4(), Advent5(), Advent6(), Advent7())
+    val adventDays : List<Advent> = listOf(Advent1(), Advent2(), Advent3(), Advent4(), Advent5(), Advent6(), Advent7(), Advent8())
     var day = 0;
     for(advent in adventDays) {
         day += 1;
