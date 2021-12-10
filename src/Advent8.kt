@@ -27,11 +27,8 @@ class Advent8 : Advent {
         for (line in inputLines) {
             val fourDigitString = line.split(" | ")[1]
             val individualDigits = fourDigitString.split(" ")
-            for (digit in individualDigits) {
-                if (digit.length == 2 || digit.length == 4 || digit.length == 3 || digit.length == 7) {
-                    partOneCount += 1
-                }
-            }
+            val digitsToCheck = listOf(2, 4, 3, 7)
+            partOneCount += individualDigits.filter { e -> digitsToCheck.contains(e.length) }.count()
         }
         return partOneCount
     }
@@ -87,7 +84,6 @@ class Advent8 : Advent {
                 4 -> digitMappingList[4] = getListOfDigitConnectionsFromString(digit)
                 3 -> digitMappingList[7] = getListOfDigitConnectionsFromString(digit)
                 7 -> digitMappingList[8] = getListOfDigitConnectionsFromString(digit)
-                else -> {}
             }
         }
         //Second loop to use our values to fill the board
@@ -123,9 +119,7 @@ class Advent8 : Advent {
         }
     return digitMappingList
 }
-
     fun getListOfDigitConnectionsFromString(digit: String) : MutableList<String> {
         return digit.split("").filter{e -> e.isNotEmpty()}.sorted().toMutableList()
     }
-
 }
