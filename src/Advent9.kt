@@ -16,7 +16,21 @@ class Advent9 : Advent{
     }
 
     override fun part2() {
-        TODO("Not yet implemented")
+        grid = listOf()
+        lowPoints = listOf()
+        receiveInput(readInputFromFile())
+        findLowPoints()
+        findBiggestBasins()
+        calculateAndPrintThreeBiggestBasins()
+    }
+
+    fun calculateAndPrintThreeBiggestBasins() {
+        var biggestBasins = basin.distinct().sortedBy { e -> e.size }.takeLast(3)
+        var calculation = 1
+        for(basin in biggestBasins) {
+            calculation *= basin.size
+        }
+        println(calculation)
     }
 
     fun calculateAndPrintLowPoints(){
@@ -34,8 +48,8 @@ class Advent9 : Advent{
     fun findLowPoints() {
         var mutableLowPoints = lowPoints.toMutableList()
         var mutableLowCoords = lowPointCoordinates.toMutableList()
-        for(yPosition in 0..grid.lastIndex) {
-            for(xPosition in 0..grid[yPosition].lastIndex) {
+        for(xPosition in 0..grid.lastIndex) {
+            for(yPosition in 0..grid[xPosition].lastIndex) {
                 if(positionIsSmallestInNearby(xPosition, yPosition)) {
                     mutableLowPoints.add(grid[xPosition][yPosition])
                     mutableLowCoords.add("$xPosition:$yPosition")
@@ -55,7 +69,7 @@ class Advent9 : Advent{
     }
 
     fun isRightSmaller(xValue: Int, yValue: Int) : Boolean {
-        return xValue < grid[0].lastIndex && grid[xValue+1][yValue] <= grid[xValue][yValue]
+        return xValue < grid.lastIndex && grid[xValue+1][yValue] <= grid[xValue][yValue]
     }
 
     fun isUpSmaller(xValue: Int, yValue: Int) : Boolean {
@@ -63,7 +77,7 @@ class Advent9 : Advent{
     }
 
     fun isDownSmaller(xValue: Int, yValue: Int) : Boolean {
-        return yValue < grid.lastIndex && grid[xValue][yValue+1] <= grid[xValue][yValue]
+        return yValue < grid[0].lastIndex && grid[xValue][yValue+1] <= grid[xValue][yValue]
     }
 
     fun findBasin(xValue: Int, yValue: Int, currentBasin: List<String>) : List<String>{
@@ -107,7 +121,7 @@ class Advent9 : Advent{
     }
 
     fun isRightInBasin(xValue: Int, yValue: Int) : Boolean {
-        return xValue < grid[0].lastIndex && grid[xValue+1][yValue] > grid[xValue][yValue] && grid[xValue+1][yValue] != 9
+        return xValue < grid.lastIndex && grid[xValue+1][yValue] > grid[xValue][yValue] && grid[xValue+1][yValue] != 9
     }
 
     fun isUpInBasin(xValue: Int, yValue: Int) : Boolean {
@@ -115,7 +129,7 @@ class Advent9 : Advent{
     }
 
     fun isDownInBasin(xValue: Int, yValue: Int) : Boolean {
-        return yValue < grid.lastIndex && grid[xValue][yValue+1] > grid[xValue][yValue] && grid[xValue][yValue+1] != 9
+        return yValue < grid[0].lastIndex && grid[xValue][yValue+1] > grid[xValue][yValue] && grid[xValue][yValue+1] != 9
     }
 
     fun readInputFromFile(): List<String> = File("data/day9_1.txt").readLines()
