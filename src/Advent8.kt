@@ -97,7 +97,8 @@ class Advent8 : Advent {
                 } else {
                     digitMappingList[6] = mappingList
                 }
-            } else if (digit.length == 5) {
+            }
+            else if (digit.length == 5) {
                 if (mappingList.containsAll(digitMappingList[1]) && digitMappingList[1].isNotEmpty()) {
                     digitMappingList[3] = mappingList
                 }
@@ -117,8 +118,9 @@ class Advent8 : Advent {
                 }
             }
         }
-    return digitMappingList
-}
+        return digitMappingList
+    }
+
     fun getListOfDigitConnectionsFromString(digit: String) : MutableList<String> {
         return digit.split("").filter{e -> e.isNotEmpty()}.sorted().toMutableList()
     }
