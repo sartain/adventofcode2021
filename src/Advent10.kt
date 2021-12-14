@@ -1,7 +1,10 @@
 package src
 
-class Advent10 {
-    var score: Int = 0
+import Advent
+import java.io.File
+
+class Advent10 : Advent{
+    var score: Long = 0
     val opening = listOf("{","(","<","[")
     val closing = listOf("}",")",">","]")
     val points = listOf(1197, 3, 25137, 57)
@@ -26,6 +29,27 @@ class Advent10 {
                 }
             }
         }
+    }
+
+    fun convertInputForFunction(inputList: List<String>) : List<List<String>> {
+        var listToReturn : List<List<String>> = listOf()
+        var mutableListToReturn = listToReturn.toMutableList()
+        for(line in inputList) {
+            mutableListToReturn.add(line.split("").filter { e -> e.isNotEmpty() })
+        }
+        return mutableListToReturn
+    }
+
+    fun readInputFromFile(): List<String> = File("data/day10_1.txt").readLines()
+
+    override fun part1() {
+        var input = readInputFromFile()
+        fromInputReportErrors(convertInputForFunction(input))
+        println(score)
+    }
+
+    override fun part2() {
+        TODO("Not yet implemented")
     }
 
 }
