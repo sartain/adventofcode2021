@@ -16,7 +16,21 @@ class Advent10Test {
     @Test
     fun acceptValidQueue() {
         val advent10 = Advent10()
-        advent10.fromInputReportErrors(listOf(listOf("<",">","{","}","[","]","(",")")))
+        advent10.fromInputReportErrors(listOf(listOf("<", ">", "{", "}", "[", "]", "(", ")")))
         assertEquals(0, advent10.score)
+    }
+
+    @Test
+    fun invalidQueue() {
+        val advent10 = Advent10()
+        advent10.fromInputReportErrors(listOf(listOf("(", ">")))
+        assertEquals(3, advent10.score)
+    }
+
+    @Test
+    fun stopAtOneError() {
+        val advent10 = Advent10()
+        advent10.fromInputReportErrors(listOf(listOf("(", ">", ")", "<", "}")))
+        assertEquals(3, advent10.score)
     }
 }
