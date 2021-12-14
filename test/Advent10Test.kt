@@ -47,4 +47,18 @@ class Advent10Test {
         advent10.fromInputReportErrors(listOf(listOf("<", "}", ")", "<", "}")))
         assertEquals(1197, advent10.score)
     }
+
+    @Test
+    fun scoreIncompleteLine() {
+        val advent10 = Advent10()
+        advent10.fromInputFixIncomplete(listOf(listOf("<")))
+        assertEquals(4, advent10.incomplete[0])
+    }
+
+    @Test
+    fun scoreIncompleteLineMultiple() {
+        val advent10 = Advent10()
+        advent10.fromInputFixIncomplete(listOf(listOf("<", "<", "<")))
+        assertEquals(124, advent10.incomplete[0])
+    }
 }
