@@ -21,16 +21,11 @@ class Advent10 {
             else {
                 var poppedValue : String = stack.removeFirst()
                 if(closing.indexOf(symbol) != opening.indexOf(poppedValue)) {
-                    score += points[opening.indexOf(poppedValue)]
+                    score += points[closing.indexOf(symbol)]
                     break
                 }
             }
         }
     }
-
-    fun scoreSyntaxErrors() {
-
-    }
-
 
 }

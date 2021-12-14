@@ -24,13 +24,27 @@ class Advent10Test {
     fun invalidQueue() {
         val advent10 = Advent10()
         advent10.fromInputReportErrors(listOf(listOf("(", ">")))
-        assertEquals(3, advent10.score)
+        assertEquals(25137, advent10.score)
     }
 
     @Test
     fun stopAtOneError() {
         val advent10 = Advent10()
-        advent10.fromInputReportErrors(listOf(listOf("(", ">", ")", "<", "}")))
+        advent10.fromInputReportErrors(listOf(listOf("<", ")", ")", "<", "}")))
         assertEquals(3, advent10.score)
+    }
+
+    @Test
+    fun score57WhenSquare() {
+        val advent10 = Advent10()
+        advent10.fromInputReportErrors(listOf(listOf("(", "]", ")", "<", "}")))
+        assertEquals(57, advent10.score)
+    }
+
+    @Test
+    fun score1197WhenBrace() {
+        val advent10 = Advent10()
+        advent10.fromInputReportErrors(listOf(listOf("<", "}", ")", "<", "}")))
+        assertEquals(1197, advent10.score)
     }
 }
