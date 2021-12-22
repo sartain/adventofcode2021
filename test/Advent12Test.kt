@@ -52,4 +52,12 @@ class Advent12Test {
         advent12.navigateCaveStartToEnd()
         assertEquals(10, advent12.navigationList.size)
     }
+
+    @Test
+    fun navigateCaveCorrectAmountOfTimesPart2() {
+        val advent12 = Advent12()
+        advent12.receiveInput(listOf("A-start", "start-b", "A-c", "A-b", "b-d", "A-end", "b-end"))
+        advent12.navigateCaveStartToEndPart2()
+        assertEquals(36, advent12.navigationList.size)
+    }
 }
