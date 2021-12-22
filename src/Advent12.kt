@@ -1,0 +1,79 @@
+package src
+
+import Advent
+import java.io.File
+
+class Advent12 : Advent{
+
+    var caveList : List<Pair<String, String>> = listOf()
+    var navigationList : List<List<String>> = listOf()
+
+    override fun part1() {
+        receiveInput(readInputFromFile())
+        navigateCaveStartToEnd()
+        println(navigationList.size)
+    }
+
+    override fun part2() {
+        TODO("Not yet implemented")
+    }
+
+    fun receiveInput(inputList : List<String>) {
+        var mutableCaveList = caveList.toMutableList()
+        for(caveLink in inputList) {
+            val caveA = caveLink.split("-")[0]
+            val caveB = caveLink.split("-")[1]
+            mutableCaveList.add(Pair(caveA, caveB))
+        }
+        caveList = mutableCaveList
+    }
+
+    fun navigateCaveStartToEnd() {
+        //navigate all possible options from start -> end
+        //navigate all possible options from start -> A
+        //navigate all possible options from start -> b
+        navigateCave("start", listOf(), listOf())
+    }
+
+    fun navigateCave(moveTo: String, cavesVisited: List<String>, smallCavesVisited: List<String>) {
+        if(moveTo in smallCavesVisited) {
+            return
+        }
+        var mutableCavesVisited = cavesVisited.toMutableList()
+        mutableCavesVisited.add(moveTo)
+        var mutableSmallCavesVisited = smallCavesVisited.toMutableList()
+        if(moveTo.lowercase() == moveTo) {
+            mutableSmallCavesVisited.add(moveTo)
+        }
+        if(moveTo == "end") {
+            var mutableNavigationList = navigationList.toMutableList()
+            if(mutableCavesVisited !in mutableNavigationList)
+                mutableNavigationList.add(mutableCavesVisited)
+            navigationList = mutableNavigationList
+            return
+        }
+        for(option in getCaveOptionsGivenLocation(moveTo)) {
+            navigateCave(option, mutableCavesVisited, mutableSmallCavesVisited)
+        }
+    }
+
+    fun getCaveOptionsGivenLocation(currentCave: String) : List<String> {
+        val caveLinks = caveList.filter {  it.first == currentCave || it.second == currentCave }
+        if(caveLinks.isEmpty()) {
+            return listOf()
+        }
+        else {
+            val linksToStart = mutableListOf<String>()
+            for(cave in caveLinks) {
+                if(cave.first == currentCave)
+                    linksToStart.add(cave.second)
+                else
+                    linksToStart.add(cave.first)
+            }
+            return linksToStart
+        }
+    }
+
+    fun readInputFromFile() : List<String> = File("data/day12_1.txt").readLines()
+
+}
