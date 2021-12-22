@@ -6,6 +6,8 @@ import java.io.File
 class Advent11 : Advent {
     var flashCount : Int = 0
     var flashList : MutableList<MutableList<Int>> = mutableListOf()
+    var flashTime : Int = 0
+    var stepsCount : Int = 0
 
     override fun part1() {
         receiveListInput(readInputFromFile())
@@ -14,7 +16,9 @@ class Advent11 : Advent {
     }
 
     override fun part2() {
-        TODO("Not yet implemented")
+        receiveListInput(readInputFromFile())
+        runStepsUntilAllFlash()
+        println(flashTime)
     }
 
     fun receiveListInput(flash: List<String>) {
@@ -33,6 +37,16 @@ class Advent11 : Advent {
         }
     }
 
+    fun runStepsUntilAllFlash() {
+        for(i in 1..2000) {
+            updateFlashList(flashList)
+            if(areAllFlashing()) {
+                flashTime = i
+                return
+            }
+        }
+    }
+
     fun updateFlashList(listToUpdate : MutableList<MutableList<Int>>) {
         var mutableListToUpdate = listToUpdate
         for(y in 0..mutableListToUpdate.lastIndex) {
@@ -45,6 +59,7 @@ class Advent11 : Advent {
     }
 
     fun flashAndUpdateList(listToUpdate: MutableList<MutableList<Int>>) : MutableList<MutableList<Int>> {
+        stepsCount += 1
         var mutableListToUpdate = listToUpdate
         for(y in 0..mutableListToUpdate.lastIndex) {
             for(x in 0..mutableListToUpdate[0].lastIndex) {
@@ -56,6 +71,17 @@ class Advent11 : Advent {
             }
         }
         return mutableListToUpdate
+    }
+
+    fun areAllFlashing() : Boolean {
+        for(y in 0..flashList.lastIndex) {
+            for (x in 0..flashList[0].lastIndex) {
+                if (flashList[y][x] != 0) {
+                    return false
+                }
+            }
+        }
+        return true
     }
 
     //Given the coordinates of a flashing point, update nearby if not flashed
@@ -76,9 +102,9 @@ class Advent11 : Advent {
             val x = coords.second
             mutableListToUpdate[y][x] += 1
         }
-        var newMutableList = flashAndUpdateList(mutableListToUpdate)
+        val newMutableList = flashAndUpdateList(mutableListToUpdate)
         if(newMutableList != mutableListToUpdate)
-            flashAndUpdateList(mutableListToUpdate)
+            mutableListToUpdate = flashAndUpdateList(mutableListToUpdate)
         return mutableListToUpdate
     }
 
