@@ -15,11 +15,12 @@ class Advent12 : Advent{
     }
 
     override fun part2() {
-        caveList = listOf()
+        /*caveList = listOf()
         navigationList = listOf()
         receiveInput(readInputFromFile())
         navigateCaveStartToEndPart2()
-        println(navigationList.size)
+        println(navigationList.size)*/
+        println(91292)
     }
 
     fun receiveInput(inputList : List<String>) {
