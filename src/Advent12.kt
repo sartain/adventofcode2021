@@ -43,9 +43,9 @@ class Advent12 : Advent{
         //navigate all possible options from start -> end
         //navigate all possible options from start -> A
         //navigate all possible options from start -> b
-        for(option in getCaveOptionsGivenLocation("start")) {
-            for(lowerCave in getAllLowercaseCaves()) {
-                navigateCave(option, listOf(), listOf("start"), true, lowerCave)
+        getCaveOptionsGivenLocation("start").forEach {
+            getAllLowercaseCaves().forEach { c ->
+                navigateCave(it, listOf(), listOf("start"), true, c)
             }
         }
         //navigateCave("start", listOf(), listOf(), true)
@@ -106,9 +106,7 @@ class Advent12 : Advent{
             navigationList = mutableNavigationList
             return
         }
-        for(option in getCaveOptionsGivenLocation(moveTo).filter { e -> !mutableSmallCavesVisited.contains(e) }) {
-            navigateCave(option, mutableCavesVisited, mutableSmallCavesVisited, canReVisit, valueToRevisit)
-        }
+        getCaveOptionsGivenLocation(moveTo).filter { e -> !mutableSmallCavesVisited.contains(e) }.forEach({navigateCave(it, mutableCavesVisited, mutableSmallCavesVisited, canReVisit, valueToRevisit)})
     }
 
     fun getAllLowercaseCaves() : List<String> {
