@@ -15,6 +15,7 @@ class Advent12 : Advent{
     }
 
     override fun part2() {
+        caveList = listOf()
         navigationList = listOf()
         receiveInput(readInputFromFile())
         navigateCaveStartToEndPart2()
@@ -44,7 +45,7 @@ class Advent12 : Advent{
         //navigate all possible options from start -> b
         for(option in getCaveOptionsGivenLocation("start")) {
             for(lowerCave in getAllLowercaseCaves()) {
-                navigateCave(option, listOf(), listOf(), true, lowerCave)
+                navigateCave(option, listOf(), listOf("start"), true, lowerCave)
             }
         }
         //navigateCave("start", listOf(), listOf(), true)
@@ -73,23 +74,31 @@ class Advent12 : Advent{
     }
 
     fun navigateCave(moveTo: String, cavesVisited: List<String>, smallCavesVisited: List<String>, canVisitTwice: Boolean, valueToRevisit: String = "") {
-        var canReVisitSmall = canVisitTwice && moveTo == valueToRevisit
-        var canReVisitNextTurn = canVisitTwice
-        if(moveTo in smallCavesVisited) {
+        //Logic written out
+        //Can revisit a lowercase value once a turn
+        //When visit for first time -> ignore but set canvisittwice to false
+        //When visit second time -> If canvisittwice set false we add to visited
+        //When visit third time -> if in smallcavesvisited we return
+        //If can't visit twice (value to revisit != moveTo) and value to revisit lowercase
+        //We add to small caves list
+        val mutableCavesVisited = cavesVisited.toMutableList()
+        val mutableSmallCavesVisited = smallCavesVisited.toMutableList()
+        var canReVisit = canVisitTwice
+        val viewingCaveToVisitTwiceFirstTime = valueToRevisit == moveTo && canReVisit
+        val viewingCaveToVisitTwiceSecondTime = valueToRevisit == moveTo && !canReVisit
+        if(mutableSmallCavesVisited.contains(moveTo)) {
             return
         }
-        val mutableCavesVisited = cavesVisited.toMutableList()
-        mutableCavesVisited.add(moveTo)
-        val mutableSmallCavesVisited = smallCavesVisited.toMutableList()
-        //Add to small caves visited if this isn't the value we can include twice
-        if(moveTo.lowercase() == moveTo) {
-            if(canReVisitSmall) {
-                canReVisitNextTurn = false
-            }
-            else {
-                mutableSmallCavesVisited.add(moveTo)
-            }
+        else if(viewingCaveToVisitTwiceFirstTime) {
+            canReVisit = false
         }
+        else if(viewingCaveToVisitTwiceSecondTime) {
+            mutableSmallCavesVisited.add(moveTo)
+        }
+        else if(moveTo.lowercase() == moveTo) {
+            mutableSmallCavesVisited.add(moveTo)
+        }
+        mutableCavesVisited.add(moveTo)
         if(moveTo == "end") {
             val mutableNavigationList = navigationList.toMutableList()
             if(mutableCavesVisited !in mutableNavigationList)
@@ -97,8 +106,8 @@ class Advent12 : Advent{
             navigationList = mutableNavigationList
             return
         }
-        for(option in getCaveOptionsGivenLocation(moveTo)) {
-            navigateCave(option, mutableCavesVisited, mutableSmallCavesVisited, canReVisitNextTurn, valueToRevisit)
+        for(option in getCaveOptionsGivenLocation(moveTo).filter { e -> !mutableSmallCavesVisited.contains(e) }) {
+            navigateCave(option, mutableCavesVisited, mutableSmallCavesVisited, canReVisit, valueToRevisit)
         }
     }
 
