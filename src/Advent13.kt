@@ -1,6 +1,7 @@
 package src
 
 import Advent
+import java.io.File
 import kotlin.math.max
 
 class Advent13 : Advent {
@@ -8,8 +9,12 @@ class Advent13 : Advent {
     var wrapArray : List<List<String>> = listOf()
     var instructionList : List<String> = listOf()
 
+    fun readInputFromFile() : List<String> = File("data/day13_1.txt").readLines()
+
     override fun part1() {
-        TODO("Not yet implemented")
+        receiveInput(readInputFromFile())
+        followInstructionsUpTo(1)
+        println(countVisibleDotValues())
     }
 
     override fun part2() {
@@ -57,7 +62,7 @@ class Advent13 : Advent {
     }
 
     fun followInstructionsUpTo(instructionMax : Int) {
-        for(i in 0..instructionMax-1) {
+        for(i in 0 until instructionMax) {
             followInstruction(instructionList[i])
         }
     }
@@ -67,6 +72,8 @@ class Advent13 : Advent {
         val positionToFold : Int = Integer.valueOf(instruction.split("=")[1])
         if(axisToFold == "x")
             performXFold(positionToFold)
+        else
+            performYFold(positionToFold)
     }
 
     fun performXFold(valueToFoldOn : Int) {
@@ -91,5 +98,38 @@ class Advent13 : Advent {
             splitMutableWrapArray[y] = mutableWrapArray[y].dropLast(valueToFoldOn + 1)
         }
         wrapArray = splitMutableWrapArray
+    }
+
+    fun performYFold(valueToFoldOn : Int) {
+        //We want to split the array in half with values before and after the fold
+        var mutableWrapArray = wrapArray.toMutableList()
+        for(y in 0..valueToFoldOn) {
+            for(x in 0..wrapArray[0].lastIndex) {
+                if (wrapArray[y][x] == "#" || wrapArray[(valueToFoldOn * 2 - y)][x] == "#") {
+                    var mutableRow = mutableWrapArray[y].toMutableList()
+                    mutableRow[x] = "#"
+                    mutableWrapArray[y] = mutableRow
+                } else {
+                    var mutableRow = mutableWrapArray[y].toMutableList()
+                    mutableRow[x] = "."
+                    mutableWrapArray[y] = mutableRow
+                }
+            }
+        }
+        //Now split the array
+        var splitMutableWrapArray = mutableWrapArray.dropLast(valueToFoldOn + 1)
+        wrapArray = splitMutableWrapArray
+    }
+
+    fun countVisibleDotValues() : Int{
+        var dotCount = 0
+        for(row in wrapArray) {
+            for(icon in row) {
+                if(icon == "#") {
+                    dotCount += 1
+                }
+            }
+        }
+        return dotCount
     }
 }
