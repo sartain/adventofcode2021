@@ -18,7 +18,11 @@ class Advent13 : Advent {
     }
 
     override fun part2() {
-        TODO("Not yet implemented")
+        wrapArray = listOf()
+        instructionList = listOf()
+        receiveInput(readInputFromFile())
+        followInstructionsUpTo(instructionList.lastIndex)
+        printAndDisplay()
     }
 
     fun receiveInput(inputList : List<String>) {
@@ -29,14 +33,15 @@ class Advent13 : Advent {
                 val mutableInstructionList = instructionList.toMutableList()
                 mutableInstructionList.add(instruction)
                 instructionList = mutableInstructionList
-                break
             }
-            val xCoord : Int = Integer.valueOf(instruction.split(",")[0])
-            val yCoord : Int = Integer.valueOf(instruction.split(",")[1])
-            if(xCoord > maxX)
-                maxX = xCoord
-            if(yCoord > maxY)
-                maxY = yCoord
+            else {
+                val xCoord: Int = Integer.valueOf(instruction.split(",")[0])
+                val yCoord: Int = Integer.valueOf(instruction.split(",")[1])
+                if (xCoord > maxX)
+                    maxX = xCoord
+                if (yCoord > maxY)
+                    maxY = yCoord
+            }
         }
         //create array of size max x max y filling all values with dot
         var mutableWrapArray = wrapArray.toMutableList().toMutableList()
@@ -62,7 +67,7 @@ class Advent13 : Advent {
     }
 
     fun followInstructionsUpTo(instructionMax : Int) {
-        for(i in 0 until instructionMax) {
+        for(i in 0..instructionMax) {
             followInstruction(instructionList[i])
         }
     }
@@ -131,5 +136,14 @@ class Advent13 : Advent {
             }
         }
         return dotCount
+    }
+
+    fun printAndDisplay() {
+        for(row in wrapArray) {
+            for(icon in row) {
+                print(icon)
+            }
+            print("\n")
+        }
     }
 }
