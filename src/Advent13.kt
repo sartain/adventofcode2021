@@ -2,7 +2,6 @@ package src
 
 import Advent
 import java.io.File
-import kotlin.math.max
 
 class Advent13 : Advent {
 
@@ -12,7 +11,7 @@ class Advent13 : Advent {
     fun readInputFromFile() : List<String> = File("data/day13_1.txt").readLines()
 
     override fun part1() {
-        receiveInput(readInputFromFile())
+        convertInputToGridAndInstructions(readInputFromFile())
         followInstructionsUpTo(1)
         println(countVisibleDotValues())
     }
@@ -20,19 +19,23 @@ class Advent13 : Advent {
     override fun part2() {
         wrapArray = listOf()
         instructionList = listOf()
-        receiveInput(readInputFromFile())
+        convertInputToGridAndInstructions(readInputFromFile())
         followInstructionsUpTo(instructionList.lastIndex)
         printAndDisplay()
     }
 
-    fun receiveInput(inputList : List<String>) {
+    fun addInstructionToList(instruction : String) {
+        val mutableInstructionList = instructionList.toMutableList()
+        mutableInstructionList.add(instruction)
+        instructionList = mutableInstructionList
+    }
+
+    fun navigateInputList(inputList: List<String>) : List<Int> {
         var maxX = 0
         var maxY = 0
         for(instruction in inputList) {
             if(instruction.startsWith("fold")) {
-                val mutableInstructionList = instructionList.toMutableList()
-                mutableInstructionList.add(instruction)
-                instructionList = mutableInstructionList
+                addInstructionToList(instruction)
             }
             else {
                 val xCoord: Int = Integer.valueOf(instruction.split(",")[0])
@@ -43,16 +46,23 @@ class Advent13 : Advent {
                     maxY = yCoord
             }
         }
-        //create array of size max x max y filling all values with dot
-        var mutableWrapArray = wrapArray.toMutableList().toMutableList()
+        return listOf(maxX, maxY)
+    }
+
+    fun initializeArrayWithDots(maxX : Int, maxY: Int) {
+        val mutableWrapArray = wrapArray.toMutableList().toMutableList()
         for(y in 0..maxY) {
-            var mutableRow = mutableListOf<String>()
+            val mutableRow = mutableListOf<String>()
             for(x in 0..maxX) {
                 mutableRow.add(".")
             }
             mutableWrapArray.add(mutableRow)
         }
         wrapArray = mutableWrapArray
+    }
+
+    fun setValuesInInstructionListToHash(inputList: List<String>) {
+        var mutableWrapArray = wrapArray.toMutableList()
         for(instruction in inputList) {
             if(instruction.startsWith("fold")) {
                 break
@@ -64,6 +74,15 @@ class Advent13 : Advent {
             mutableWrapArray[yCoord] = mutableRow
         }
         wrapArray = mutableWrapArray
+    }
+
+    fun convertInputToGridAndInstructions(inputList : List<String>) {
+        val maxBoundaries = navigateInputList(inputList)
+        val maxX = maxBoundaries[0]
+        val maxY = maxBoundaries[1]
+        //create array of size max x max y filling all values with dot
+        initializeArrayWithDots(maxX, maxY)
+        setValuesInInstructionListToHash(inputList)
     }
 
     fun followInstructionsUpTo(instructionMax : Int) {
@@ -81,19 +100,22 @@ class Advent13 : Advent {
             performYFold(positionToFold)
     }
 
+    fun updateValueAfterFold(yPos: Int, xPos: Int, mutableWrapArray: MutableList<List<String>>, valueToSet: String) : MutableList<List<String>> {
+        var mutableRow = mutableWrapArray[yPos].toMutableList()
+        mutableRow[xPos] = valueToSet
+        mutableWrapArray[yPos] = mutableRow
+        return mutableWrapArray
+    }
+
     fun performXFold(valueToFoldOn : Int) {
         //We want to split the array in half with values before and after the fold
         var mutableWrapArray = wrapArray.toMutableList()
         for(y in 0..wrapArray.lastIndex) {
             for(x in 0..valueToFoldOn) {
                 if (wrapArray[y][x] == "#" || wrapArray[y][(valueToFoldOn * 2) - x] == "#") {
-                    var mutableRow = mutableWrapArray[y].toMutableList()
-                    mutableRow[x] = "#"
-                    mutableWrapArray[y] = mutableRow
+                    mutableWrapArray = updateValueAfterFold(y, x, mutableWrapArray, "#")
                 } else {
-                    var mutableRow = mutableWrapArray[y].toMutableList()
-                    mutableRow[x] = "."
-                    mutableWrapArray[y] = mutableRow
+                    mutableWrapArray = updateValueAfterFold(y, x, mutableWrapArray, ".")
                 }
             }
         }
@@ -111,13 +133,9 @@ class Advent13 : Advent {
         for(y in 0..valueToFoldOn) {
             for(x in 0..wrapArray[0].lastIndex) {
                 if (wrapArray[y][x] == "#" || wrapArray[(valueToFoldOn * 2 - y)][x] == "#") {
-                    var mutableRow = mutableWrapArray[y].toMutableList()
-                    mutableRow[x] = "#"
-                    mutableWrapArray[y] = mutableRow
+                    mutableWrapArray = updateValueAfterFold(y, x, mutableWrapArray, "#")
                 } else {
-                    var mutableRow = mutableWrapArray[y].toMutableList()
-                    mutableRow[x] = "."
-                    mutableWrapArray[y] = mutableRow
+                    mutableWrapArray = updateValueAfterFold(y, x, mutableWrapArray, ".")
                 }
             }
         }
