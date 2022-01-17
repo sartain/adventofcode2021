@@ -19,6 +19,13 @@ class Advent14Test {
         assertEquals(advent14.pairMappings, listOf(Pair("CH", "B"), Pair("HH", "N")))
     }
 
+    @Test
+    fun createCharPairMappings() {
+        val advent14 = Advent14()
+        advent14.receiveInput(listOf("NNCB", "CH -> B", "HH -> N"))
+        assertEquals(advent14.charSumMappings, listOf(Pair("B", 0), Pair("N", 0)))
+    }
+
 }
 /*
 Plan
